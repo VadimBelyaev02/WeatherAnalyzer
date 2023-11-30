@@ -1,0 +1,44 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Vadim
+      comment: Create a table "weather"
+      changes:
+        - createTable:
+            tableName: weather
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: temperature
+                  type: numeric(2, 2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: wind_speed
+                  type: numeric(2, 2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: pressure
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: weather_description
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: location
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date
+                  type: timestamp
+                  constraints:
+                    nullable: false
