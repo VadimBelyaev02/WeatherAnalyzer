@@ -1,4 +1,4 @@
-package com.senlatest.weatheranalyzer.model;
+package com.senlatest.weatheranalyzer.client.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
