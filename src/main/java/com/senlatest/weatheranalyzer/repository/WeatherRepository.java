@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -13,10 +14,17 @@ public interface WeatherRepository extends JpaRepository<Weather, UUID> {
     @Query(nativeQuery = true, value = "SELECT * from weather ORDER BY date limit 1")
     Optional<Weather> findLast();
 
+
     @Query(nativeQuery = true,
             value = "SELECT AVG(pressure) as pressure, AVG(temperature) as temperature, AVG(wind_speed) as windSpeed, " +
                     "AVG(air_humidity) as airHumidity, date FROM weather WHERE city = :city AND data >= :from AND date <= :to")
     Optional<Weather> findAverageWeatherForPeriod(Instant from, Instant to, String city);
+
+    void deleteAllByDateAfterAndDateBefore(Instant from, Instant to);
+
+    void deleteByDate(Instant date);
+
+    void updateByDate(Instant date);
 }
 
 /*

@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 
 @RequiredArgsConstructor
 @RestController
@@ -31,7 +33,9 @@ public class WeatherController {
             @RequestParam(value = "from") LocalDate from,
             @RequestParam(value = "to") LocalDate to
             ) {
-        AverageWeatherResponseDto averageWeather = weatherService.getAverageWeather(city, from, to);
+        Instant fromInstant = from.atStartOfDay(ZoneId.of("UTC")).toInstant();
+        Instant toInstant = from.atStartOfDay(ZoneId.of("UTC")).toInstant();
+        AverageWeatherResponseDto averageWeather = weatherService.getAverageWeather(city, fromInstant, toInstant);
         return ResponseEntity.ok(averageWeather);
     }
 
