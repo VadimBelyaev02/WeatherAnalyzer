@@ -4,6 +4,8 @@ To run the app, follow these steps:
 1. Run `./mvnw clean package`.
 2. Run ` java -jar target/weather-analyzer-1.0.jar` (you can also try to use `docker-compose up`, but it's unlikely to work) 
 
+Please not that must be installed.
+
 The application runs on port 8080.
 
 You can interact with the app using the endpoints listed in the table below. Use any tool capable of sending HTTP requests.
