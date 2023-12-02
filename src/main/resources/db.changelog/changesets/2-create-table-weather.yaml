@@ -37,7 +37,7 @@ databaseChangeLog:
                   type: uuid
                   constraints:
                     nullable: false
-                    foreignKeyName: weather_locations_id_fk
+                    foreignKeyName: weather_location_id_fk
                     referencedColumnNames: id
                     referencedTableName: locations
               - column:

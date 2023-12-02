@@ -24,7 +24,7 @@ import java.util.Objects;
 @Component
 public class WeatherbitClient {
 
-    @Value("${weatherbit.api-key:294a275ba6394baaa8e5e84639f94a27}")
+    @Value("${weatherbit.api-key:db1a4abaffe74bba953da44ba8512827}")
     private String API_KEY;
     private final WebClient webClient;
     private final OpenStreetMapClient openStreetMapClient;

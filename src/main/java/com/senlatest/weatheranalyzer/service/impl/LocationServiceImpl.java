@@ -56,17 +56,20 @@ public class LocationServiceImpl implements LocationService {
         location.setLatitude(locationInfo.getLat());
         location.setDisplayName(locationInfo.getDisplay_name());
 
-        Location savedLocation = locationsRepository.save(locationMapper.toEntity(locationRequestDto));
+        Location savedLocation = locationsRepository.save(location);
         return locationMapper.toResponse(savedLocation);
     }
 
     @Override
     @Transactional
     public LocationResponseDto update(UUID locationId, LocationRequestDto locationRequestDto) {
-        if (!locationsRepository.existsById(locationId)) {
-            throw new NotFoundException("Location with id = " + locationId + " wasn't found");
+        if (locationsRepository.existsByCity(locationRequestDto.getCity())) {
+            throw new DuplicateRecordException("Location with city = " + locationRequestDto.getCity() + " already exists");
         }
-        Location location = locationsRepository.save(locationMapper.toEntity(locationRequestDto));
+        Location location = locationsRepository.findById(locationId).orElseThrow(
+                () -> new NotFoundException("Location with id = " + locationId + " wasn't found")
+        );
+        locationMapper.updateEntityFromRequestDto(locationRequestDto, location);
         return locationMapper.toResponse(location);
     }
 

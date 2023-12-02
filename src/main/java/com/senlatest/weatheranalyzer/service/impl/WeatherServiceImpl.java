@@ -11,7 +11,9 @@ import com.senlatest.weatheranalyzer.service.WeatherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 
 @Log
 @Service
@@ -23,10 +25,9 @@ public class WeatherServiceImpl implements WeatherService {
 
     @Override
     public CurrentWeatherResponseDto getCurrentWeather(String city) {
-        Weather weather = weatherRepository.findByDateAndCity(OffsetDateTime.now(), city).orElseThrow(
+        Weather weather = weatherRepository.findByDateAndCity(LocalDate.now().atStartOfDay().atOffset(ZoneOffset.UTC), city).orElseThrow(
                 () -> new NotFoundException("There is no any information about weather in " + city)
         );
-
         return weatherMapper.toCurrentWeatherResponseDto(weather);
     }
 
