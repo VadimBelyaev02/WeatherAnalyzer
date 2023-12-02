@@ -2,6 +2,7 @@ package com.senlatest.weatheranalyzer.exception.handler;
 
 
 import com.senlatest.weatheranalyzer.exception.DuplicateRecordException;
+import com.senlatest.weatheranalyzer.exception.BadResponseFromExternalService;
 import com.senlatest.weatheranalyzer.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,5 +26,10 @@ public class GlobalControllerAdvice {
     @ExceptionHandler(DuplicateRecordException.class)
     public ResponseEntity<String> handleDuplicateRecordException(DuplicateRecordException exception) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
+    }
+
+    @ExceptionHandler(BadResponseFromExternalService.class)
+    public ResponseEntity<String> handleExternalServiceApiException(BadResponseFromExternalService exception) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
     }
 }

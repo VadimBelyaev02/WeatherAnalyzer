@@ -16,8 +16,7 @@ public class OpenStreetMapClient {
     private final WebClient webClient;
 
     public LocationInfo getLocationByCityName(String cityName) {
-        String BASE_URI = "https://nominatim.openstreetmap.org/search";
-        String uri = UriComponentsBuilder.fromUriString(BASE_URI)
+        String uri = UriComponentsBuilder.fromUriString("https://nominatim.openstreetmap.org/search")
                 .queryParam("q", cityName)
                 .queryParam("format", "json")
                 .build()

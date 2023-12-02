@@ -1,23 +1,15 @@
 package com.senlatest.weatheranalyzer.client;
 
-import com.senlatest.weatheranalyzer.client.model.Coordinates;
 import com.senlatest.weatheranalyzer.client.model.CurrentObsGroup;
 import com.senlatest.weatheranalyzer.client.model.ForecastDay;
+import com.senlatest.weatheranalyzer.exception.BadResponseFromExternalService;
 import com.senlatest.weatheranalyzer.model.entity.Location;
-import com.senlatest.weatheranalyzer.model.entity.Weather;
-import com.senlatest.weatheranalyzer.repository.LocationsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Objects;
 
 @RequiredArgsConstructor
@@ -25,9 +17,8 @@ import java.util.Objects;
 public class WeatherbitClient {
 
     @Value("${weatherbit.api-key:db1a4abaffe74bba953da44ba8512827}")
-    private String API_KEY;
+    private String apiKey;
     private final WebClient webClient;
-    private final OpenStreetMapClient openStreetMapClient;
 
     public ForecastDay getDailyForecast(Location location) {
         String uri = getURI(location, "forecast/daily");
@@ -39,7 +30,7 @@ public class WeatherbitClient {
                 .block();
 
         if (Objects.isNull(forecastDay) || Objects.isNull(forecastDay.getData()) || forecastDay.getData().isEmpty()) {
-            throw new RuntimeException();
+            throw new BadResponseFromExternalService("No data provided");
         }
         return forecastDay;
     }
@@ -54,19 +45,16 @@ public class WeatherbitClient {
                 .block();
 
         if (Objects.isNull(currentObsGroup) || Objects.isNull(currentObsGroup.getData()) || currentObsGroup.getData().isEmpty()) {
-            throw new RuntimeException();
+            throw new BadResponseFromExternalService("No data provided");
         }
         return currentObsGroup;
     }
 
     private String getURI(Location location, String uriSuffix) {
-    //    Coordinates coordinates = openStreetMapClient.getLonAndLatByCityName(city);
-
-        String BASE_URI = "https://api.weatherbit.io/v2.0/";
-        return UriComponentsBuilder.fromUriString(BASE_URI + uriSuffix)
+        return UriComponentsBuilder.fromUriString("https://api.weatherbit.io/v2.0/" + uriSuffix)
                 .queryParam("lat", location.getLatitude())
                 .queryParam("lon", location.getLongitude())
-                .queryParam("key", API_KEY)
+                .queryParam("key", apiKey)
                 .build().toUriString();
     }
 }

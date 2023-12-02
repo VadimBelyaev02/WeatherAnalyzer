@@ -26,9 +26,5 @@ public class LocationInfo {
     private String name;
     private String display_name;
     private List<String> boundingbox;
-
-    public Coordinates getLatAndLon() {
-        return Coordinates.builder().latitude(lat).longitude(lon).build();
-    }
 }
 

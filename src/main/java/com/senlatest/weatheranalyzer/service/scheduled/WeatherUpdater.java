@@ -42,7 +42,7 @@ public class WeatherUpdater {
                                     .atStartOfDay()
                                     .atOffset(ZoneOffset.UTC))//
                             .airHumidity(forecast.getRh())
-                            .location(locationsRepository.findByCity(forecastDay.getCity_name()).orElseThrow())
+                            .location(location)
                             .pressure(forecast.getPres())
                             .temperature(forecast.getTemp())
                             .weatherDescription(forecast.getWeather().getDescription())
@@ -61,7 +61,7 @@ public class WeatherUpdater {
     }
 
     @Transactional
-    @Scheduled(fixedRateString = "${weather.current.update-frequency}", timeUnit = TimeUnit.SECONDS)
+    @Scheduled(fixedRateString = "${weather.current.update-frequency}", timeUnit = TimeUnit.HOURS)
     public void currentWeather() {
         List<Location> locations = locationsRepository.findAll();
 
@@ -72,7 +72,6 @@ public class WeatherUpdater {
                     .weatherDescription(currentObs.getWeather().getDescription())
                     .location(location)
                     .date(OffsetDateTime.of(LocalDateTime.parse(currentObs.getDatetime(), DateTimeFormatter.ofPattern("yyyy-MM-dd:H")), ZoneOffset.UTC))
-
                     .windSpeed(currentObs.getWind_speed())
                     .airHumidity(currentObs.getRh())
                     .temperature(currentObs.getTemp())

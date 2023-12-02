@@ -28,8 +28,6 @@ public class WeatherController {
     @GetMapping("/current")
     public ResponseEntity<CurrentWeatherResponseDto> getCurrentWeather(@RequestParam(value = "city") String city) {
         CurrentWeatherResponseDto currentWeather = weatherService.getCurrentWeather(city);
-        LocalDate localDate = LocalDate.now();
-        System.out.println(localDate);
         return ResponseEntity.ok(currentWeather);
     }
 
