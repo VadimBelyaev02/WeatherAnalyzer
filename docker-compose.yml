@@ -7,7 +7,7 @@ services:
       interval: 60s
       timeout: 10s
       retries: 3
-    image: vadimbelyaev394875983474892/weatheranalyzer:latest
+    image: vadimbelyaev394875983474892/weather-analyzer:latest
     ports:
       - "8080:8080"
     environment:

@@ -40,7 +40,7 @@ public class WeatherUpdater {
                     .map(forecast -> Weather.builder()
                             .date(LocalDate.parse(forecast.getDatetime())
                                     .atStartOfDay()
-                                    .atOffset(ZoneOffset.UTC))//
+                                    .atOffset(ZoneOffset.UTC))
                             .airHumidity(forecast.getRh())
                             .location(location)
                             .pressure(forecast.getPres())
@@ -53,7 +53,7 @@ public class WeatherUpdater {
             OffsetDateTime fromDate = weatherList.get(0).getDate();
             OffsetDateTime toDate = weatherList.get(weatherList.size() - 1).getDate();
 
-            weatherRepository.deleteAllByDateAfterAndDateBefore(fromDate, toDate);
+            weatherRepository.deleteAllByDateAfterAndDateBeforeAndCity(fromDate, toDate, location.getCity());
 
             weatherRepository.saveAll(weatherList);
         }

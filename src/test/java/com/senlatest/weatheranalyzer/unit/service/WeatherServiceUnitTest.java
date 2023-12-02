@@ -1,4 +1,4 @@
-package com.senlatest.weatheranalyzer.unit;
+package com.senlatest.weatheranalyzer.unit.service;
 
 import com.senlatest.weatheranalyzer.model.entity.Weather;
 import com.senlatest.weatheranalyzer.model.mapper.WeatherMapper;
@@ -20,6 +20,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -90,8 +92,12 @@ public class WeatherServiceUnitTest {
     @ParameterizedTest
     @MethodSource("offsetDateTimeAndCityProvider")
     void Given_CityAndPeriod_When_CalculateAverageValues_Then_AverageValuesAreReturned(OffsetDateTime fromDate, OffsetDateTime toDate, String city) {
-
-        when(weatherRepository.findAverageWeatherForPeriod(fromDate, toDate, city)).thenReturn(Optional.of(currentWeather));
+        Map<String, Object> averageValue = new HashMap<>();
+        averageValue.put("pressure", currentWeather.getPressure());
+        averageValue.put("air_humidity", currentWeather.getAirHumidity());
+        averageValue.put("temperature", currentWeather.getTemperature());
+        averageValue.put("wind_speed", currentWeather.getWindSpeed());
+        when(weatherRepository.findAverageWeatherForPeriod(fromDate, toDate, city)).thenReturn(Optional.of(averageValue));
         when(weatherMapper.toAverageWeatherResponseDto(currentWeather)).thenReturn(averageWeatherResponseDto);
 
         assertEquals(averageWeatherResponseDto, weatherService.getAverageWeather(city, fromDate, toDate));

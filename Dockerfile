@@ -12,6 +12,6 @@ RUN mvn clean package
 
 FROM eclipse-temurin:17-jre-alpine
 
-COPY --from=build /app/target/weather-analyzer-1.0.jar .
+COPY --from=build /target/weather-analyzer-1.0.jar .
 
 ENTRYPOINT ["java", "-jar", "/app/target/weather-analyzer-1.0.jar"]

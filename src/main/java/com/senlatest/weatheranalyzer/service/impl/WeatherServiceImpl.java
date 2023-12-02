@@ -11,9 +11,11 @@ import com.senlatest.weatheranalyzer.service.WeatherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.util.Map;
 
 @Log
 @Service
@@ -33,10 +35,19 @@ public class WeatherServiceImpl implements WeatherService {
 
     @Override
     public AverageWeatherResponseDto getAverageWeather(String cityName, OffsetDateTime from, OffsetDateTime to) {
-        Weather weather = weatherRepository.findAverageWeatherForPeriod(from, to, cityName).orElseThrow(
+        Map<String, Object> averageValues = weatherRepository.findAverageWeatherForPeriod(from, to, cityName).orElseThrow(
                 () -> new NotFoundException("There is no a single weather that satisfies the condition")
         );
-        return weatherMapper.toAverageWeatherResponseDto(weather);
+        BigDecimal temperature = (BigDecimal) averageValues.get("temperature");
+        BigDecimal windSpeed = (BigDecimal) averageValues.get("wind_speed");
+        BigDecimal airHumidity = (BigDecimal) averageValues.get("air_humidity");
+        BigDecimal pressure = (BigDecimal) averageValues.get("pressure");
+        return AverageWeatherResponseDto.builder()
+                .averageTemperature(temperature.floatValue())
+                .averageAirHumidity(airHumidity.intValue())
+                .averagePressure(pressure.intValue())
+                .averageWindSpeed(windSpeed.floatValue())
+                .build();
     }
 
 }

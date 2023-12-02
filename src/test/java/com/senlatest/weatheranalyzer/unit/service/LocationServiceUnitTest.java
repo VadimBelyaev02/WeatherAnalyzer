@@ -1,4 +1,4 @@
-package com.senlatest.weatheranalyzer.unit;
+package com.senlatest.weatheranalyzer.unit.service;
 
 import com.senlatest.weatheranalyzer.client.OpenStreetMapClient;
 import com.senlatest.weatheranalyzer.client.model.LocationInfo;
