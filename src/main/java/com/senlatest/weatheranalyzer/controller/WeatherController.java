@@ -10,9 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.Instant;
+import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 
 @RequiredArgsConstructor
 @RestController
@@ -32,10 +33,10 @@ public class WeatherController {
             @RequestParam(value = "city") String city,
             @RequestParam(value = "from") LocalDate from,
             @RequestParam(value = "to") LocalDate to
-            ) {
-        Instant fromInstant = from.atStartOfDay(ZoneId.of("UTC")).toInstant();
-        Instant toInstant = from.atStartOfDay(ZoneId.of("UTC")).toInstant();
-        AverageWeatherResponseDto averageWeather = weatherService.getAverageWeather(city, fromInstant, toInstant);
+    ) {
+        OffsetDateTime fromOffsetDateTime = from.atStartOfDay().atOffset(ZoneOffset.UTC);
+        OffsetDateTime toOffsetDateTime = to.atStartOfDay().atOffset(ZoneOffset.UTC);
+        AverageWeatherResponseDto averageWeather = weatherService.getAverageWeather(city, fromOffsetDateTime, toOffsetDateTime);
         return ResponseEntity.ok(averageWeather);
     }
 

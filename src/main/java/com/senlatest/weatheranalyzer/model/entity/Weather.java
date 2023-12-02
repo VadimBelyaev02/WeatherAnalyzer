@@ -6,7 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -20,16 +22,16 @@ public class Weather {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private double temperature;
+    private float temperature;
 
     @Column(name = "wind_speed")
-    private double windSpeed;
+    private float windSpeed;
     private int pressure;
 
     @Column(name = "air_humidity")
     private int airHumidity;
     private String location;
-    private Instant date;
+    private OffsetDateTime date;
 
     @Column(name = "weather_description")
     private String weatherDescription;

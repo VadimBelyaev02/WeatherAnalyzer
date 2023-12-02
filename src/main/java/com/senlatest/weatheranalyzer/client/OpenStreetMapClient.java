@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.List;
 import java.util.Objects;
 
 @Component
@@ -23,12 +24,12 @@ public class OpenStreetMapClient {
                 .build()
                 .toUriString();
 
-        return Objects.requireNonNull(webClient.get()
-                        .uri(uri)
-                        .retrieve()
-                        .bodyToMono(LocationInfo.class)
-                        .block())
-                .getLatAndLon();
-
+        List<LocationInfo> locationInfoList = Objects.requireNonNull(webClient.get()
+                .uri(uri)
+                .retrieve()
+                .bodyToFlux(LocationInfo.class)
+                .collectList()
+                .block());
+        return locationInfoList.get(0).getLatAndLon();
     }
 }

@@ -33,10 +33,10 @@ public class CurrentObsGroup {
         private int wind_dir;
         private String wind_cdir;
         private String wind_cdir_full;
-        private double wind_speed;
+        private float wind_speed;
         private int gust;
-        private double temp;
-        private double app_temp;
+        private float temp;
+        private float app_temp;
         private int clouds;
         private InlineModel weather;
         private String datetime;

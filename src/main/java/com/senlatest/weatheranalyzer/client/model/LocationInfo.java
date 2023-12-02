@@ -28,10 +28,7 @@ public class LocationInfo {
     private List<String> boundingbox;
 
     public Coordinates getLatAndLon() {
-        return Coordinates.builder()
-                .latitude(lat)
-                .longitude(lon)
-                .build();
+        return Coordinates.builder().latitude(lat).longitude(lon).build();
     }
 }
 

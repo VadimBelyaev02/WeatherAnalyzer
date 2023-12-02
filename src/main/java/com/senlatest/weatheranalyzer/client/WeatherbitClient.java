@@ -10,7 +10,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 
@@ -37,10 +41,20 @@ public class WeatherbitClient {
         if (Objects.isNull(forecastDay) || Objects.isNull(forecastDay.getData()) || forecastDay.getData().isEmpty()) {
             throw new RuntimeException();
         }
+
+        for (int i = 0; i < forecastDay.getData().size(); i++) {
+            System.out.println(forecastDay.getData().get(i) + "\n\n\n");
+            if (forecastDay.getData().get(i).getDatetime().contains(":")) {
+                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            }
+        }
+        ;
         return forecastDay.getData().stream()
+                .peek(System.out::println)
                 .map(forecast -> Weather.builder()
-                        .date(Instant.parse(forecast.getDatetime()))
-                        .airHumidity(forecast.getRh())
+                        .date(LocalDate.parse(forecast.getDatetime())
+                                .atStartOfDay()
+                                .atOffset(ZoneOffset.UTC))//                        .airHumidity(forecast.getRh())
                         .location(city)
                         .pressure(forecast.getPres())
                         .temperature(forecast.getTemp())
@@ -48,6 +62,7 @@ public class WeatherbitClient {
                         .windSpeed(forecast.getWind_spd())
                         .build()
                 ).toList();
+        //return null;
     }
 
     public Weather getCurrentWeather(String city) {
@@ -67,7 +82,8 @@ public class WeatherbitClient {
         return Weather.builder()
                 .weatherDescription(currentObs.getWeather().getDescription())
                 .location(city)
-                .date(Instant.parse(currentObs.getDatetime()))
+                .date(OffsetDateTime.of(LocalDateTime.parse(currentObs.getDatetime(), DateTimeFormatter.ofPattern("yyyy-MM-dd:H")), ZoneOffset.UTC))
+
                 .windSpeed(currentObs.getWind_speed())
                 .airHumidity(currentObs.getRh())
                 .temperature(currentObs.getTemp())

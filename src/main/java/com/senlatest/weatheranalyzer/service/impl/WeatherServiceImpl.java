@@ -10,7 +10,10 @@ import com.senlatest.weatheranalyzer.service.WeatherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -21,14 +24,14 @@ public class WeatherServiceImpl implements WeatherService {
 
     @Override
     public CurrentWeatherResponseDto getCurrentWeather(String cityName) {
-        Weather weather = weatherRepository.findLast().orElseThrow(
+        Weather weather = weatherRepository.findByDate(OffsetDateTime.now()).orElseThrow(
                 () -> new NotFoundException("There is no a single weather")
         );
         return weatherMapper.toCurrentWeatherResponseDto(weather);
     }
 
     @Override
-    public AverageWeatherResponseDto getAverageWeather(String cityName, Instant from, Instant to) {
+    public AverageWeatherResponseDto getAverageWeather(String cityName, OffsetDateTime from, OffsetDateTime to) {
         Weather weather = weatherRepository.findAverageWeatherForPeriod(from, to, cityName).orElseThrow(
                 () -> new NotFoundException("There is no a single weather that satisfies the condition")
         );
