@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.senlatest</groupId>
-    <artifactId>WeatherAnalyzer</artifactId>
+    <artifactId>weather-analyzer</artifactId>
     <version>1.0</version>
     <name>WeatherAnalyzer</name>
     <description>WeatherAnalyzer</description>
