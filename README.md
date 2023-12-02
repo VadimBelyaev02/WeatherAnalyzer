@@ -2,7 +2,7 @@
 ## Running the Application
 To run the app, follow these steps:
 1. Run `./mvnw clean package`.
-2. Run `docker-compose up`.
+2. Run ` java -jar target/weather-analyzer-1.0.jar` (you can also try to use `docker-compose up`, but it's unlikely to work) 
 
 The application runs on port 8080.
 
