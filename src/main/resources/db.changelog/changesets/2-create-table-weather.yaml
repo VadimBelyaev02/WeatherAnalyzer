@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 1
+      id: 2
       author: Vadim
       comment: Create a table "weather"
       changes:
@@ -33,10 +33,13 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: location
-                  type: varchar(255)
+                  name: location_id
+                  type: uuid
                   constraints:
                     nullable: false
+                    foreignKeyName: weather_locations_id_fk
+                    referencedColumnNames: id
+                    referencedTableName: locations
               - column:
                   name: date
                   type: timestamp
