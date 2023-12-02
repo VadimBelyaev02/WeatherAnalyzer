@@ -14,12 +14,12 @@ databaseChangeLog:
                     primaryKey: true
               - column:
                   name: temperature
-                  type: numeric(2, 2)
+                  type: numeric(6, 2)
                   constraints:
                     nullable: false
               - column:
                   name: wind_speed
-                  type: numeric(2, 2)
+                  type: numeric(6, 2)
                   constraints:
                     nullable: false
               - column:
@@ -29,16 +29,21 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: weather_description
-                  type: varchar(100)
+                  type: varchar(255)
                   constraints:
                     nullable: false
               - column:
                   name: location
-                  type: varchar(100)
+                  type: varchar(255)
                   constraints:
                     nullable: false
               - column:
                   name: date
                   type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: air_humidity
+                  type: int
                   constraints:
                     nullable: false
