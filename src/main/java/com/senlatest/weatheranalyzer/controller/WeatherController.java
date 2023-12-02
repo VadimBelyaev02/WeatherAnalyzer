@@ -1,9 +1,11 @@
 package com.senlatest.weatheranalyzer.controller;
 
+import com.senlatest.weatheranalyzer.logging.annotation.Log;
 import com.senlatest.weatheranalyzer.model.response.AverageWeatherResponseDto;
 import com.senlatest.weatheranalyzer.model.response.CurrentWeatherResponseDto;
 import com.senlatest.weatheranalyzer.service.WeatherService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cglib.core.Local;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,7 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
+@Log
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/weather")
@@ -25,6 +28,8 @@ public class WeatherController {
     @GetMapping("/current")
     public ResponseEntity<CurrentWeatherResponseDto> getCurrentWeather(@RequestParam(value = "city") String city) {
         CurrentWeatherResponseDto currentWeather = weatherService.getCurrentWeather(city);
+        LocalDate localDate = LocalDate.now();
+        System.out.println(localDate);
         return ResponseEntity.ok(currentWeather);
     }
 
