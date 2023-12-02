@@ -1,12 +1,12 @@
 # WeatherAnalyzer
 
 To run the app you need to run the following command in the following order:
-1) mvn clean package
+1) ./mvnw clean package
 2) docker-compose up
 
 The application port is 8080.
 
-Now you can access the app using the table below.
+Now you can access the app using the table below and any tool that can send http requests.
 
 
 | HTTP METHOD | ENDPOINT | PARAMETERS | REQUEST BODY | DESCRIPTION |
